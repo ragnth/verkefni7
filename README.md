@@ -1,3 +1,18 @@
+# Nytsamlegar skiparnir git
+git clone https://github.com/ragnth/vef1-2019-v7.git
+
+cd <þín mappa>
+
+git add . (punktur ef allt) // git add <skráarnafn>(nafn á skrá sem þú ætlar að breyta)
+
+git commit -m "kommentið þitt"
+
+git push -u origin master
+
+git status (hver er staðan á rep)
+
+git pull (sækir það sem er nýtt á github)
+
 # Verkefni 7
 
 Útfæra skal leik sem snýst um að giska á tölu sem er á milli 0 og 100. Forrit velur tölu á milli 0 og 100 af handahófi. Birta skal glugga sem biður notanda að slá inn tölu á milli 0 og 100.

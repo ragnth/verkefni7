@@ -13,7 +13,7 @@
  *  - Seinni leikur kláraðist í þrem ágiskunum.
  */
 
- const games = [];
+const games = [];
 
 
  /**
@@ -23,7 +23,12 @@
   * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
   */
 function start() {
-  play();
+	play();
+
+	while (confirm("Vilt þú spila annan leik?")){
+		play();
+	}
+	alert(getResults());
 }
 
 /**
@@ -41,7 +46,31 @@ function start() {
  * Þarf aðútfæra með lykkju og flæðisstýringum
  */
 function play() {
-  const random = randomNumber(1,100;
+	const random = randomNumber(1,100);
+
+	let i = 0;		//fjöldi ágiskana
+	let num = 50;	// ágiskun
+	let inputNum = null;	// tala sem er slegin inn af notenda
+	do {
+		inputNum = prompt('Giskaðu á tölu milli 0 og 100', num);
+		num = parseGuess(inputNum);
+
+		//ef notandi ýtir á cancel
+		if (inputNum === null) { 	
+			alert("Hætt í leik");
+			alert(getResults());
+	    	break;
+    	}
+
+		alert(getResponse(num, random));
+		i++;
+	} while (num != random);
+	
+	//vista fjölda ágiskana í games
+	if (inputNum !== null){ 
+		games.push(i);
+	}
+
 }
 
 /**
@@ -54,7 +83,11 @@ function play() {
  *    "Þú spilaðir engann leik >_<"
  */
 function getResults(){
-
+	if (games === undefined || games.length == 0){
+		return "Þú spilaðir engann leik >_<";
+	} else{
+		return "þú spilaðir "+ games.length +" leiki \n Meðalfjöldi ágiskana var "+calculateAverage();
+	}
 }
 
 /**
@@ -66,7 +99,14 @@ function getResults(){
  * þarf að útfæra með lykkju.
  */
 function calculateAverage(){
-
+	var tala = 0;
+	//leggja saman fjölda ágiskana
+	for (var i = 0; i < games.length; i++) {
+		tala = games[i]+tala;
+	}
+	//reikna meðaltal með 2 aukastöfum
+	tala = parseFloat(tala/games.length).toFixed(2);
+	return tala;
 }
 
 /**
@@ -74,7 +114,15 @@ function calculateAverage(){
  * Ef ekki er hægt að ná tölu úr input er skilað null
  */
 function parseGuess(input){
+	// skilar streng input sem tölu a
+	var a = parseInt(input);
 
+	// ef strengur var ekki tala (NaN úr parseInt()) þá skila null, annars skila a
+	if (isNaN(a)) {
+		return null;
+	} else {
+		return a;
+	}
 }
 
 /**
@@ -93,7 +141,23 @@ function parseGuess(input){
  * Math.abs skilar algildi tölu: |a| = Math.abs(a)
  */
 function getResponse(guess, correct){
-  return 'Ekki rétt';
+
+	if (guess < 0 || guess === null){
+		return 'Ekki rétt';
+	} else if (guess == correct) {
+		return 'Rétt'; 	
+	} else if (Math.abs(guess-correct) < 5) {
+  		return 'Mjög nálægt';
+   } else if (Math.abs(guess-correct) < 10) {
+  		return 'Nálægt';
+  	} else if (Math.abs(guess-correct) < 20) {
+  		return 'Frekar langt frá';
+  	} else if (Math.abs(guess-correct) < 50) {
+  		return 'Langt frá';
+  	}	else {
+		return 'Mjög langt frá'
+	}
+
 }
 
 /**
